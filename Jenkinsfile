@@ -16,12 +16,8 @@ pipeline {
         stage('Set Up Virtual Environment') {
             steps {
                 bat '''
-                    python3 -m venv ${VENV_PATH}
-                    if [ -f "${VENV_PATH}/bin/activate" ]; then
-                        . ${VENV_PATH}/bin/activate
-                    else
-                        ${VENV_PATH}\\Scripts\\activate
-                    fi
+                    python -m venv %VENV_PATH%
+                    call %VENV_PATH%\\Scripts\\activate
                     pip install --upgrade pip
                 '''
             }
@@ -30,7 +26,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat '''
-                    . ${VENV_PATH}/bin/activate || ${VENV_PATH}\\Scripts\\activate
+                    call %VENV_PATH%\\Scripts\\activate
                     pip install -r requirements.txt
                 '''
             }
@@ -39,7 +35,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat '''
-                    . ${VENV_PATH}/bin/activate || ${VENV_PATH}\\Scripts\\activate
+                    call %VENV_PATH%\\Scripts\\activate
                     pytest || echo "Tests skipped (if not implemented)"
                 '''
             }
@@ -47,7 +43,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t ${DOCKER_IMAGE} ."
+                bat "docker build -t %DOCKER_IMAGE% ."
             }
         }
     }
