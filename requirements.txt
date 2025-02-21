@@ -1,0 +1,5 @@
+flask
+flask_sqlalchemy
+Flask-HTTPAuth==4.8.0
+pytest==7.4.0
+gunicorn==20.1.0
