@@ -5,9 +5,23 @@
             <h4 class="mb-0">All Users</h4>
         </div>
         <div class="card-body">
+            <!-- Search Form -->
+            <form method="GET" action="{{ url_for('main.search_user') }}" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Search by name or ID" required>
+                    <select name="by" class="form-select">
+                        <option value="name">Name</option>
+                        <option value="id">ID</option>
+                    </select>
+                    <button type="submit" class="btn btn-success">Search</button>
+                </div>
+            </form>
+
+            <!-- User Table -->
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Actions</th>
@@ -16,6 +30,7 @@
                 <tbody>
                     {% for user in users %}
                         <tr>
+                            <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
                             <td>

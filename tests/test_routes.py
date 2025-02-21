@@ -64,3 +64,4 @@ def test_delete_user(client):
     response = client.delete('/users/1/delete', follow_redirects=True)
     assert response.status_code == 200
     assert b'testuser' not in response.data
+

@@ -57,3 +57,19 @@ def delete_user(id):
     db.session.commit()
     flash('User deleted successfully!', 'success')
     return redirect(url_for('main.index'))
+
+@main.route('/users/search', methods=['GET'])
+def search_user():
+    query = request.args.get('query', '').strip()
+    search_by = request.args.get('by', 'name')
+
+    if not query:
+        flash('Please enter a search term.', 'warning')
+        return redirect(url_for('main.index'))
+
+    if search_by == "id" and query.isdigit():
+        users = User.query.filter_by(id=int(query)).all()
+    else:
+        users = User.query.filter(User.username.ilike(f"%{query}%")).all()
+
+    return render_template('index.html', users=users)
