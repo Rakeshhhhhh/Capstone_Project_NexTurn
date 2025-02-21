@@ -18,7 +18,7 @@ pipeline {
                 bat '''
                     python -m venv %VENV_PATH%
                     call %VENV_PATH%\\Scripts\\activate
-                    pip install --upgrade pip
+                    %VENV_PATH%\\Scripts\\python.exe -m pip install --upgrade pip
                 '''
             }
         }
