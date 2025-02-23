@@ -46,10 +46,11 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 bat '''
-                    docker pull ${DOCKER_IMAGE}:latest
-                    docker stop ${CONTAINER_NAME} || echo "No running container"
-                    docker rm ${CONTAINER_NAME} || echo "No container to remove"
-                    docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}:latest
+                    docker pull %DOCKER_IMAGE%:latest
+                    docker stop %CONTAINER_NAME% || echo "No running container"
+                    docker rm %CONTAINER_NAME% || echo "No container to remove"
+                    docker run -d -p 5000:5000 --name %CONTAINER_NAME% %DOCKER_IMAGE%:latest
+
                 '''
             }
         }
