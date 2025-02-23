@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rakesh80/nexturn-capstone-project"  // Your Docker Hub image
 
-        CONTAINER_NAME = "flask-app"
+        CONTAINER_NAME = "nexturn-capstone"
         VENV_PATH = "env"  // Virtual environment for tests
     }
 
