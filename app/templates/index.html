@@ -8,11 +8,11 @@
             <!-- Search Form -->
             <form method="GET" action="{{ url_for('main.search_user') }}" class="mb-4">
                 <div class="input-group">
-                    <input type="text" name="query" class="form-control" placeholder="Search by name or ID" required>
                     <select name="by" class="form-select">
                         <option value="name">Name</option>
-                        <option value="id">ID</option>
+                        <option value="id" selected>ID</option>
                     </select>
+                    <input type="text" name="query" class="form-control" placeholder="Search by name or ID" required>
                     <button type="submit" class="btn btn-success">Search</button>
                 </div>
             </form>

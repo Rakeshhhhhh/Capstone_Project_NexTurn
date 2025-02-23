@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        VENV_PATH = "env"  // Virtual environment path
-        DOCKER_IMAGE = "flask-rest-api"  // Docker image name
+        DOCKER_IMAGE = "rakesh80/nexturn-capstone-project"  // Your Docker Hub image
+
+        CONTAINER_NAME = "flask-app"
+        VENV_PATH = "env"  // Virtual environment for tests
     }
 
     stages {
@@ -36,24 +38,29 @@ pipeline {
             steps {
                 bat '''
                     call %VENV_PATH%\\Scripts\\activate
-                    pytest || echo "Tests skipped (if not implemented)"
+                    pytest || echo "Tests failed"
                 '''
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Deploy Application') {
             steps {
-                bat "docker build -t %DOCKER_IMAGE% ."
+                bat '''
+                    docker pull ${DOCKER_IMAGE}:latest
+                    docker stop ${CONTAINER_NAME} || echo "No running container"
+                    docker rm ${CONTAINER_NAME} || echo "No container to remove"
+                    docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}:latest
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Deployment successful! 🚀'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Deployment failed! ❌'
         }
     }
 }
